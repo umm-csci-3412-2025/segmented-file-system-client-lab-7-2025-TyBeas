@@ -48,9 +48,8 @@ public class FileRetriever {
         }
 
         private boolean needData(ArrayList<FileFunc> files, int numFiles) {
-                if (files.size() < numFiles) {
+                if (files.size() < numFiles)
                         return true;
-                }
                 for (FileFunc file : files) {
                         if (file.numChunks != file.data.size() - 1) {
                                 return true;
