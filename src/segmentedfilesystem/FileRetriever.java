@@ -1,5 +1,6 @@
 package segmentedfilesystem;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -24,7 +25,7 @@ public class FileRetriever {
                 socket = new DatagramSocket();
                 packet = new DatagramPacket(buffer, buffer.length, address, port);
                 socket.send(packet);
-                ArrayList<File> files = new ArrayList<File>();
+                ArrayList<FileFunc> files = new ArrayList<FileFunc>();
                 while (needData(files, numFiles)) {
                         buffer = new byte[1024];
                         packet = new DatagramPacket(buffer, buffer.length);
@@ -34,7 +35,7 @@ public class FileRetriever {
                         if (buffer[0] % 2 == 0) {
                                 findFileOrMake(buffer, files).setHeader(buffer);
                         }else {
-                                File file = findFileOrMake(buffer, files);
+                                FileFunc file = findFileOrMake(buffer, files);
 
                                 if ((buffer[0] >> 1) % 2 == 1) {
                                         file.finalData(buffer, packet.getLength());
@@ -46,11 +47,11 @@ public class FileRetriever {
                 printFiles(files);
         }
 
-        private boolean needData(ArrayList<File> files, int numFiles) {
+        private boolean needData(ArrayList<FileFunc> files, int numFiles) {
                 if (files.size() < numFiles) {
                         return true;
                 }
-                for (File file : files) {
+                for (FileFunc file : files) {
                         if (file.numChunks != file.data.size() - 1) {
                                 return true;
                         }
@@ -58,8 +59,8 @@ public class FileRetriever {
                 return false;
         }
 
-        private void printFiles(ArrayList<File> files) {
-                for (File file : files) {
+        private void printFiles(ArrayList<FileFunc> files) {
+                for (FileFunc file : files) {
                         File fileToWrite = new File(file.fileName.trim());
                         try {
                                 fileToWrite.createNewFile();
@@ -78,13 +79,13 @@ public class FileRetriever {
                         }
                 }
         }
-        private File findFileOrMake(byte[] buffer, ArrayList<File> files) {
-                for (File file : files) {
+        private FileFunc findFileOrMake(byte[] buffer, ArrayList<FileFunc> files) {
+                for (FileFunc file : files) {
                         if (file.fID == buffer[1]) {
                                 return file;
                         }
                 }
-                File file = new File(buffer[1]);
+                FileFunc file = new FileFunc(buffer[1]);
                 files.add(file);
                 return file;
         }

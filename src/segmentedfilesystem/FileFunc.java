@@ -3,18 +3,18 @@ package segmentedfilesystem;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class File {
+public class FileFunc {
     int fID;
     String fileName;
     int numChunks = 9999;
     HashMap<Integer, byte[]> data = new HashMap<>();
 
-    public File(byte b, byte[] buffer) {
+    public FileFunc(byte b, byte[] buffer) {
         fID = b;
         fileName = new String(Arrays.copyOfRange(buffer, 2, buffer.length));
     }
 
-    public File(byte b){
+    public FileFunc(byte b){
         fID = b;
     }
 
