@@ -1,6 +1,5 @@
 package segmentedfilesystem;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -50,6 +49,7 @@ public class FileRetriever {
         private boolean needData(ArrayList<File> files, int numFiles) {
                 if (files.size() < numFiles) {
                         return true;
+                }
                 for (File file : files) {
                         if (file.numChunks != file.data.size() - 1) {
                                 return true;
@@ -57,11 +57,10 @@ public class FileRetriever {
                 }
                 return false;
         }
-        }
 
         private void printFiles(ArrayList<File> files) {
                 for (File file : files) {
-                        File fileToWrite = new File(file.getName());
+                        File fileToWrite = new File(file.fileName.trim());
                         try {
                                 fileToWrite.createNewFile();
                         } catch (IOException e) {

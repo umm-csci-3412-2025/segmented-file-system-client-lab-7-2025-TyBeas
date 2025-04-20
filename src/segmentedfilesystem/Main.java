@@ -1,5 +1,7 @@
 package segmentedfilesystem;
 
+import java.net.UnknownHostException;
+
 public class Main {
     
     // If there's one command line argument, it is assumed to
@@ -18,8 +20,19 @@ public class Main {
             port = Integer.parseInt(args[1]);
         }
 
-        FileRetriever fileRetriever = new FileRetriever(server, port);
-        fileRetriever.downloadFiles();
+        FileRetriever fileRetriever;
+        try {
+            fileRetriever = new FileRetriever(server, port);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();;
+            return;
+        }
+
+        try {
+            fileRetriever.downloadFiles(3);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
