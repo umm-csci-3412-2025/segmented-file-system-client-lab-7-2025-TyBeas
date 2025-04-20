@@ -27,7 +27,7 @@ public class FileRetriever {
                 socket.send(packet);
                 ArrayList<FileFunc> files = new ArrayList<FileFunc>();
                 while (needData(files, numFiles)) {
-                        buffer = new byte[1024];
+                        buffer = new byte[1028];
                         packet = new DatagramPacket(buffer, buffer.length);
                         socket.receive(packet);
                         buffer = packet.getData();
