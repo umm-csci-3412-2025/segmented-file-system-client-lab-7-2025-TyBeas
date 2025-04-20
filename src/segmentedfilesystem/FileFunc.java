@@ -7,7 +7,7 @@ public class FileFunc {
     int fID;
     String fileName;
     int numChunks = 9999;
-    HashMap<Integer, byte[]> data = new HashMap<>();
+    HashMap<Integer, byte[]> data = new HashMap<Integer, byte[]>();
 
     public FileFunc(byte b, byte[] buffer) {
         fID = b;
@@ -20,7 +20,7 @@ public class FileFunc {
 
     public void addData(byte[] buffer) {
         int index = findChunkNumber(Byte.toUnsignedInt(buffer[2]), Byte.toUnsignedInt(buffer[3]));
-        byte[] chunk = new byte[buffer.length];
+        byte[] chunk = new byte[buffer.length - 4];
         for (int i = 4; i < buffer.length; i++) {
             chunk[i - 4] = buffer[i];
         }
